@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  be:
+    image: "python:3.8.13"
+    ports:
+      - 5100:5000
+    volumes:
+      - ./test:/app
+    working_dir: /app
+    tty: true
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongodata:/data/db"
+      - "mongoconfig:/data/configdb"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: james
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redisdata:/data
+    ports:
+      - 6379:6379
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - 8001:8001
+    volumes:
+       - redisinsight:/db
+
+
+volumes:
+  redisdata:
+    driver: local
+  redisinsight:
+    driver: local
+  mongodata:
+    driver: local
+  mongoconfig:
+    driver: local
