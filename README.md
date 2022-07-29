@@ -1,4 +1,4 @@
-# The comparision of storing image from OpenCV or PyTorch to Database
+# The comparison of storing images from OpenCV and PyTorch to Database
 In the practical way of ML, the original and processed image need to store in a database. Whether it is temporary or persistent. The testing is separated into the in-memory database (Redis) and the NoSQL database (MongoDB), which support the binary data. The Redis can be used to store the temporary image or transfer between processes. Let's see the testing results.
 
 ## Results
