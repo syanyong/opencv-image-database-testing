@@ -36,6 +36,13 @@ def readImgRedis2(r, key):
     img = cv2.imdecode(jpg_as_np, flags=1)
     return img
 
+def writePubImgRedis(r, key, img):
+    h, w = img.shape[:2]
+    shape = struct.pack('>II',h,w)
+    encoded = shape + img.tobytes()
+    r.set(key, encoded)
+    r.publish("img_proc", "encoded")
+
 def writeImgMongo1(fs, img):
     _, data = cv2.imencode('.jpg', img)
     file_id = fs.put(data.tobytes())
@@ -166,4 +173,16 @@ if __name__ == '__main__':
     img = readImgMongo3(db)
     print("T6_READ ", time.time() - t)
     cv2.imwrite("T6.jpg", img)
+
+    time.sleep(0.5)
+    t = time.time()
+    _, data = cv2.imencode('.jpg', img)
+    jpg_as_text = base64.b64encode(data)
+    r.publish("img_proc", jpg_as_text)
+    print("T7_PUB ", time.time() - t)
+
+    time.sleep(0.5)
+    t = time.time()
+    writePubImgRedis(r, "img", img_out1)
+    print("T8_PUB_SET ", time.time() - t)
 

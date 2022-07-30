@@ -28,4 +28,8 @@ apt-get update
 apt-get install ffmpeg libsm6 libxext6  -y
 ```
 
+## Reference
+https://stackoverflow.com/questions/40928205/python-opencv-image-to-byte-string-for-json-transfer
+https://stackoverflow.com/questions/56944497/how-to-share-opencv-images-in-two-python-programs
+
 
